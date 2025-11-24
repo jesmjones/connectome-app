@@ -1,0 +1,300 @@
+{
+  "title": "manc-v1.2.3-neuprint-layers",
+  "dimensions": {
+    "x": [
+      8e-9,
+      "m"
+    ],
+    "y": [
+      8e-9,
+      "m"
+    ],
+    "z": [
+      8e-9,
+      "m"
+    ]
+  },
+  "position": [
+    25230.193359375,
+    18063.78515625,
+    17408.64453125
+  ],
+  "crossSectionOrientation": [
+    0,
+    0.7071067690849304,
+    -0.7071067690849304,
+    0
+  ],
+  "crossSectionScale": 209.5940631530676,
+  "projectionOrientation": [
+    0.826047420501709,
+    0.04393865540623665,
+    -0.06534965336322784,
+    -0.5580720901489258
+  ],
+  "projectionScale": 44694.56988449667,
+  "layers": [
+    {
+      "type": "image",
+      "source": {
+        "url": "precomputed://gs://flyem-vnc-2-26-213dba213ef26e094c16c860ae7f4be0/v3_emdata_clahe_xy/jpeg",
+        "subsources": {
+          "default": true
+        },
+        "enableDefaultSubsources": false
+      },
+      "tab": "rendering",
+      "name": "em"
+    },
+    {
+      "type": "segmentation",
+      "source": [
+        {
+          "url": "precomputed://gs://manc-seg-v1p2/manc-seg-v1.2",
+          "subsources": {
+            "default": true,
+            "mesh": true
+          },
+          "enableDefaultSubsources": false
+        },
+        {
+          "url": "precomputed://gs://manc-seg-v1p2/manc-seg-v1.2/segment_properties_v1.2.3/type_property/",
+          "subsources": {
+            "default": true
+          },
+          "enableDefaultSubsources": false
+        },
+        {
+          "url": "precomputed://gs://manc-seg-v1p2/manc-seg-v1.2/segment_properties_v1.2.3/tags_property/",
+          "subsources": {
+            "default": true
+          },
+          "enableDefaultSubsources": false
+        },
+        {
+          "url": "precomputed://gs://manc-seg-v1p2/manc-seg-v1.2/numeric_properties/",
+          "enableDefaultSubsources": false
+        }
+      ],
+      "toolBindings": {
+        "Q": "selectSegments"
+      },
+      "tab": "rendering",
+      "segments": [
+        "102359"
+      ],
+      "segmentQuery": "102359",
+      "segmentDefaultColor": "#00f900",
+      "segmentColors": {
+        "33946": "#808080"
+      },
+      "name": "manc:v1.2.3"
+    },
+    {
+      "type": "segmentation",
+      "source": {
+        "url": "precomputed://gs://flyem-vnc-roi-d5f392696f7a48e27f49fa1a9db5ee3b/all-vnc-roi",
+        "subsources": {
+          "default": true,
+          "properties": true,
+          "mesh": true
+        },
+        "enableDefaultSubsources": false
+      },
+      "pick": false,
+      "tab": "rendering",
+      "selectedAlpha": 0,
+      "saturation": 0,
+      "meshSilhouetteRendering": 4,
+      "segments": [
+        "1"
+      ],
+      "segmentDefaultColor": "#ffffff",
+      "name": "all-tissue",
+      "archived": true
+    },
+    {
+      "type": "segmentation",
+      "source": {
+        "url": "precomputed://gs://flyem-vnc-roi-d5f392696f7a48e27f49fa1a9db5ee3b/synaptic-neuropil",
+        "subsources": {
+          "default": true,
+          "properties": true,
+          "mesh": true
+        },
+        "enableDefaultSubsources": false
+      },
+      "pick": false,
+      "tab": "rendering",
+      "selectedAlpha": 0,
+      "saturation": 0,
+      "meshSilhouetteRendering": 4,
+      "segments": [
+        "1"
+      ],
+      "segmentDefaultColor": "#ffffff",
+      "segmentColors": {
+        "1": "#ffffff"
+      },
+      "name": "all-synaptic",
+      "archived": true
+    },
+    {
+      "type": "segmentation",
+      "source": {
+        "url": "precomputed://gs://flyem-vnc-roi-d5f392696f7a48e27f49fa1a9db5ee3b/roi-202208",
+        "subsources": {
+          "default": true,
+          "properties": true,
+          "mesh": true
+        },
+        "enableDefaultSubsources": false
+      },
+      "pick": false,
+      "tab": "rendering",
+      "selectedAlpha": 0,
+      "saturation": 0.5,
+      "objectAlpha": 0.16,
+      "meshSilhouetteRendering": 10,
+      "segments": [
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "segmentDefaultColor": "#ffffff",
+      "name": "neuropils"
+    },
+    {
+      "type": "annotation",
+      "source": "precomputed://gs://manc-seg-v1p2/manc-v1.2-synapse-partners-minconf-0.0.precomputed",
+      "tab": "rendering",
+      "ignoreNullSegmentFilter": false,
+      "shader": "#uicontrol bool showPre checkbox(default=true)\n#uicontrol bool showPostPartners checkbox(default=true)\n\n#uicontrol vec3 preColor color(default=\"red\")\n#uicontrol vec3 postColor color(default=\"blue\")\n\n// Note:\n//   For the MANC in neuprint,\n//   connection strengths don't\n//   include any synapses below\n//   confidence 0.4.\n#uicontrol float preConfidence slider(min=0, max=1, default=0)\n#uicontrol float postConfidence slider(min=0, max=1, default=0)\n\nvoid main() {\n  setColor(defaultColor());\n\n  float preSize = 6.0;\n  float postSize = 4.0;\n  \n  setEndpointMarkerColor(\n    vec4(preColor, 0.5),\n    vec4(postColor, 0.5));\n  \n  if (showPre && showPostPartners) {\n    setLineWidth(1.0);\n    setEndpointMarkerSize(preSize, postSize);\n  }\n  else if (showPostPartners) {\n    setLineWidth(0.0);\n    setEndpointMarkerSize(0.0, postSize);\n  }\n  else if (showPre) {\n    setLineWidth(0.0);\n    setEndpointMarkerSize(preSize, 0.0);\n  }\n  else {\n    setLineWidth(0.0);\n    setEndpointMarkerSize(0.0, 0.0);\n  }\n  \n  if (prop_pre_synaptic_confidence() < preConfidence ||\n      prop_post_synaptic_confidence() < postConfidence) discard;\n}\n",
+      "shaderControls": {
+        "showPostPartners": false,
+        "postColor": "#00ffff",
+        "preConfidence": 0.4,
+        "postConfidence": 0.4
+      },
+      "linkedSegmentationLayer": {
+        "pre_synaptic_cell": "manc:v1.2.3"
+      },
+      "filterBySegmentation": [
+        "pre_synaptic_cell"
+      ],
+      "name": "presyn",
+      "visible": false
+    },
+    {
+      "type": "annotation",
+      "source": "precomputed://gs://manc-seg-v1p2/manc-v1.2-synapse-partners-minconf-0.0.precomputed",
+      "tab": "rendering",
+      "ignoreNullSegmentFilter": false,
+      "shader": "#uicontrol bool showPrePartners checkbox(default=true)\n#uicontrol bool showPost checkbox(default=true)\n\n#uicontrol vec3 preColor color(default=\"red\")\n#uicontrol vec3 postColor color(default=\"blue\")\n\n// Note:\n//   For the MANC in neuprint,\n//   connection strengths don't\n//   include any synapses below\n//   confidence 0.4.\n#uicontrol float preConfidence slider(min=0, max=1, default=0.4)\n#uicontrol float postConfidence slider(min=0, max=1, default=0.4)\n\nvoid main() {\n  setColor(defaultColor());\n\n  float preSize = 6.0;\n  float postSize = 4.0;\n  \n  setEndpointMarkerColor(\n    vec4(preColor, 0.5),\n    vec4(postColor, 0.5));\n  \n  if (showPrePartners && showPost) {\n    setLineWidth(1.0);\n    setEndpointMarkerSize(preSize, postSize);\n  }\n  else if (showPost) {\n    setLineWidth(0.0);\n    setEndpointMarkerSize(0.0, postSize);\n  }\n  else if (showPrePartners) {\n    setLineWidth(0.0);\n    setEndpointMarkerSize(preSize, 0.0);\n  }\n  else {\n    setLineWidth(0.0);\n    setEndpointMarkerSize(0.0, 0.0);\n  }\n  \n  if (prop_pre_synaptic_confidence() < preConfidence ||\n      prop_post_synaptic_confidence() < postConfidence) discard;\n}\n",
+      "shaderControls": {
+        "showPrePartners": false,
+        "postColor": "#00ffff"
+      },
+      "linkedSegmentationLayer": {
+        "post_synaptic_cell": "manc:v1.2.3"
+      },
+      "filterBySegmentation": [
+        "post_synaptic_cell"
+      ],
+      "name": "postsyn",
+      "visible": false
+    },
+    {
+      "type": "segmentation",
+      "source": {
+        "url": "precomputed://gs://vnc-v3-seg-3d2f1c08fd4720848061f77362dc6c17/mask",
+        "subsources": {
+          "default": true,
+          "properties": true
+        },
+        "enableDefaultSubsources": false
+      },
+      "pick": false,
+      "tab": "segments",
+      "segments": [],
+      "segmentColors": {
+        "1": "#000000"
+      },
+      "name": "voxel-classes",
+      "archived": true
+    },
+    {
+      "type": "segmentation",
+      "source": {
+        "url": "precomputed://gs://vnc-v3-seg-3d2f1c08fd4720848061f77362dc6c17/rc5_wsexp",
+        "subsources": {
+          "default": true
+        },
+        "enableDefaultSubsources": false
+      },
+      "tab": "segments",
+      "segments": [],
+      "name": "initial-supervoxels",
+      "archived": true
+    },
+    {
+      "type": "segmentation",
+      "source": {
+        "url": "precomputed://gs://flyem-vnc-roi-d5f392696f7a48e27f49fa1a9db5ee3b/court-et-al-systematic-manc_tracts/mesh",
+        "subsources": {
+          "default": true,
+          "properties": true
+        },
+        "enableDefaultSubsources": false
+      },
+      "tab": "rendering",
+      "saturation": 0.5,
+      "meshSilhouetteRendering": 4,
+      "segments": [
+        "100",
+        "101",
+        "102",
+        "103",
+        "104",
+        "105",
+        "106"
+      ],
+      "name": "court et al. tracts",
+      "archived": true
+    }
+  ],
+  "showSlices": false,
+  "prefetch": false,
+  "selectedLayer": {
+    "flex": 1.49,
+    "size": 426
+  },
+  "projectionBackgroundColor": "#ffffff",
+  "layout": "3d",
+  "selection": {
+    "flex": 0.51,
+    "size": 426,
+    "visible": false
+  }
+}
